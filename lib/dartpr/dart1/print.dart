@@ -6,6 +6,10 @@ class PrintList{
   printList(var n) {
     print('Product list');
     for (var pd in n.keys) {
+      if (pd == 'Product') {
+        stdout.write(pd + "\t\t\t");
+        continue;
+      }
       stdout.write(pd + "\t");
     }
     print("");

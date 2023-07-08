@@ -3,21 +3,18 @@ import 'package:flutter_application_1/dartpr/dart1/print.dart';
 import 'product.dart';
 
 class Cart extends PrintList{
-  
   cart() {
     stdout.write('Select product from the list(as productId):');
     int a = int.parse(stdin.readLineSync()!);
-    if (a > 0 && a <= pI.length) {
+    if (a > 0 && a <= productdata['Product']!.length) {
       stdout.write("Select quantity of product (available is ${pQ[a - 1]}):");
       double qt = double.parse(stdin.readLineSync()!);
-      if (qt >= 0 && qt <= pQ[a - 1]) {
-        cartproduct.add(pN[a - 1]);
-        cartqt.add(qt);
+      if (qt >= 0 && qt <= productdata['Quantity']?[a - 1]) {
+        cartdata['Product'].add(productdata['Product']?[a - 1]);
+        cartdata['Quantity'].add(qt);
+        cartdata['Price'].add(productdata['Price']?[a - 1]*qt *(100 - productdata['Discount']?[a - 1]) /100);
         productdata['Quantity']?[a-1]-=qt;
-        //cartpr[0] = cartpr[0] + qt * pP[a - 1];
-        //print("${cartdata['Quantity']} Selected product ${cartdata['Product']} added in your cart");
         printcart();
-        //pn[0]=1;
       } else {
         print("Please select valid number");
         cart();
@@ -41,9 +38,11 @@ class Cart extends PrintList{
             for(int i=0;i<productdata['Product']!.length;i++){
               if(productdata['Product']?[i]==cartdata['Product']?[a-1]){
                 cartdata['Quantity']?[a-1] -= b;
+                cartdata['Price']?[a-1] -= productdata['Price']?[i]*b *(100 - productdata['Discount']?[a - 1]) /100;
                 if(cartdata['Quantity']?[a-1]==0){
                   cartdata['Product'].removeAt(a-1);
                   cartdata['Quantity'].removeAt(a-1);
+                  cartdata['Price'].remoceAt(a-1);
                 }
                 productdata['Quantity']?[i]+=b;
                 wh = false;
@@ -70,18 +69,18 @@ class Cart extends PrintList{
       if (qt >= 0 && qt <= productdata['Quantity']?[a - 1]) {
         if(cartproduct.contains(productdata['Product']?[a-1])){
           for(int i=0;i<cartdata['Product']!.length;i++){
-            if(cartdata['Product']?[i]== productdata['product']?[a - 1]){
+            if(cartdata['Product']?[i]== productdata['Product']?[a - 1]){
               cartdata['Quantity']?[i] +=qt;
+              productdata['Quantity']?[a-1];
+              cartdata['Price']?[i] +=productdata['Price']?[a - 1]*qt *(100 - productdata['Discount']?[a - 1]) /100;
             }
           }
         }else{
-          cartproduct.add(pN[a - 1]);
-          cartqt.add(qt);
-          //cartList['productID']?[cartList['ProductID']!.length] = cartList['productID']!.length;
-          //print(cartList['productID']!.length);
+          cartdata['Product'].add(productdata['Product']?[a - 1]);
+          cartdata['Quantity'].add(qt);
+          cartdata['Price'].add(productdata['Price']?[a - 1]*qt*(100-productdata['Discount']?[a-1])/100);
         }
         productdata['Quantity']?[a - 1] -= qt;
-        //print("${cartdata['Quantity']?[a-1]} Selected product ${cartdata['Product']?[a-1]} added in your cart");
         printcart();
       } else {
         print("Please select valid number");
